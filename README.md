@@ -6,12 +6,12 @@ _As a possible future extension, fault states & transitions may be added to the 
 
 ------------------------------------------------------------------------------------
 #### Simplified Industrial Plants
-Basic industrial plants are simplified and [modelled]() as finite state machines using Mathworks's Stateflow. Stateflow is a control logic tool used to model reactive systems via state machines and flow charts [1]. The simplified plants are [implemented]() on a Raspberry Pi using the Python programming language. 
+Basic industrial plants are simplified and [modelled](https://github.com/Faaizz/logic_control_systems/tree/master/plants/modelling) as finite state machines using Mathworks's Stateflow. Stateflow is a control logic tool used to model reactive systems via state machines and flow charts [1]. The simplified plants are [implemented](https://github.com/Faaizz/logic_control_systems/tree/master/plants/implementation) on a Raspberry Pi using the Python programming language. 
 The choice of using the Raspberry Pi is due to the ease of communicating with the logic controller via it's general purpose input/output (GPIO) ports.  
 
 ------------------------------------------------------------------------------------
 #### Logic Controllers
-The logic controllers are [designed]() as finite state machines and the designed controllers are [validated and verified]() using [NuSMV](http://nusmv.fbk.eu/). Then they are [implemented]() on an ATMega828P using avr-libc package and also as PLCs using the [openPLC software](https://www.openplcproject.com/).
+The logic controllers are [designed](https://github.com/Faaizz/logic_control_systems/tree/master/controllers/design) as finite state machines and the designed controllers are [validated and verified](https://github.com/Faaizz/logic_control_systems/tree/master/controllers/validation_and_verification) using [NuSMV](http://nusmv.fbk.eu/). Then they are [implemented](https://github.com/Faaizz/logic_control_systems/tree/master/controllers/implementation) on an ATMega828P using avr-libc package and also as PLCs using the [openPLC software](https://www.openplcproject.com/).
 
 ------------------------------------------------------------------------------------
 #### Plants
