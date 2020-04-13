@@ -14,6 +14,8 @@
 | Error                 | err           | O     | err= 1; Error occurred    |
 
 
+[Controller Design](../../../controllers/design/mixing_tank/README.md)
+
 ------------------------------------------------------------------------------------
 ### References
 1- Logic Control Lecture Notes- Lehrstuhl für Automatisierungstechnik, Technische Universität Kaiserslautern. Prof. Dr. Ping Zhang.
