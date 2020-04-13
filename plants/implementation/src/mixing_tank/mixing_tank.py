@@ -118,5 +118,5 @@ class MixingTank:
         sys.stdout.write(mix + "\n")
         sys.stdout.write(full + "\n")
         sys.stdout.write(empty + "\n")
-        sys.stdout.write(error + "\n")
+        sys.stdout.write(error + "\n\n\n")
 
