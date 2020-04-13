@@ -17,17 +17,19 @@
 | Suspend               | sus           | -     | sus= (int); state before pause    |
 
 
+[Plant Model](../../../plants/modelling/mixing_tank)
+
 ------------------------------------------------------------------------------------  
 ### Finite State Automata
 
 ![Image- FSA](fsa/fsa_01.png)
 
 #### States
-- $Z_{0}$: Initialization. All outputs are low.  
-- $Z_{1}$: Filling. **V1** and **V2** are high. **sus** is set to 1.  
-- $Z_{2}$: Mixing. **M** is high. Timer **T_5** is set. **sus** is set to 2.  
-- $Z_{3}$: Draining. **V3** is high. **sus** is set to 3.  
-- $Z_{4}$: Stopped. All outputs are low.  
+- Z0: Initialization. All outputs are low.  
+- Z1: Filling. **V1** and **V2** are high. **sus** is set to 1.  
+- Z2: Mixing. **M** is high. Timer **T_5** is set. **sus** is set to 2.   
+- Z3: Draining. **V3** is high. **sus** is set to 3.  
+- Z4: Stopped. All outputs are low.  
 
 ------------------------------------------------------------------------------------  
 ### Specifications
@@ -38,6 +40,7 @@
 5- If **Stop Button** is pressed or an error is detected on the plant at any time, suspend 
     the current operation. This operation is resumed whenever the **Start Button** is pressed again.  
 
+[Controller Logic Verification](../../validation_and_verification/mixing_tank.smv)
 
 ------------------------------------------------------------------------------------  
 ### References

@@ -14,7 +14,7 @@
 | Error                 | err           | O     | err= 1; Error occurred    |
 
 
-[Controller Design](../../../controllers/design/mixing_tank/README.md)
+[Controller Design](../../../controllers/design/mixing_tank)
 
 ------------------------------------------------------------------------------------
 ### References
