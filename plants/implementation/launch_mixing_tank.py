@@ -20,38 +20,40 @@ h= 3
 
 # CONFIGURE INPUTS
 # Configure Valve 1 on GPIO 21
-V1_input= Button(21)
-# Configure Valve 3 on GPIO 26
-V3_input= Button(12)
-# Configure Mixer on GPIO 20
-M_input= Button(20)
+V1_input= Button(23)
+# Configure Valve 2 on GPIO 27
+V2_input= Button(27)
+# Configure Valve 3 on GPIO 17
+V3_input= Button(17)
+# Configure Mixer on GPIO 18
+M_input= Button(18)
 
 
 # CONFIGURE OUTPUTS
-# Configure Lower Sensor on GPIO 16
-ls_1_led= LED(16)
-# Configure Upper Level Sensor on GPIO 19
-ls_2_led= LED(19)
+# Configure Lower Sensor on GPIO 21
+ls_1_led= LED(21)
+# Configure Upper Level Sensor on GPIO 26
+ls_2_led= LED(26)
 
 # Configure Tank liquid level as a Binary Stream on GPIO 17, 27, 22, 18
 # Bit 0
-ll_0= LED(17)
-# Bit 1
-ll_1= LED(27)
-# Bit 2
-ll_2= LED(22)
-# Bit 3
-ll_3= LED(18)
+# ll_0= LED(17)
+# # Bit 1
+# ll_1= LED(27)
+# # Bit 2
+# ll_2= LED(22)
+# # Bit 3
+# ll_3= LED(18)
 
 # Configure Tank liquid mix percentage as a Binary Stream on GPIO 5, 6, 13, 12
 # Bit 0
-mp_0= LED(5)
-# Bit 1
-mp_1= LED(6)
-# Bit 2
-mp_2= LED(13)
-# Bit 3
-mp_3= LED(26)
+# mp_0= LED(5)
+# # Bit 1
+# mp_1= LED(6)
+# # Bit 2
+# mp_2= LED(13)
+# # Bit 3
+# mp_3= LED(26)
 
 
 # Initialize Plant
@@ -66,6 +68,11 @@ while True:
         V1= 1
     else:
         V1=0
+    # V2
+    if V2_input.is_pressed:
+        V2= 1
+    else:
+        V2=0
     sys.stdout.write("{0:10}: {1:5} \n".format("V1", bool(V1)))
     # V3
     if V3_input.is_pressed:
@@ -81,7 +88,7 @@ while True:
         M= 0
     sys.stdout.write("{0:10}: {1:5} \n".format("Mixer", bool(M)))
 
-    mixing_tank.update(V1=V1, V3=V3, M=M)
+    mixing_tank.update(V1=V1, V2=V2, V3=V3, M=M)
 
     # Set outputs
     # ls_1
