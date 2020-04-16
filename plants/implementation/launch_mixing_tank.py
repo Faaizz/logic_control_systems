@@ -92,7 +92,7 @@ while True:
 
     # Set outputs
     # ls_1
-    if not mixing_tank.ls_1:
+    if mixing_tank.ls_1:
         ls_1_led.on()
     else:
         ls_1_led.off()

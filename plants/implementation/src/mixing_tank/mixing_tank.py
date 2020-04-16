@@ -59,10 +59,11 @@ class MixingTank:
             # Inlet valve
             if (self.ls_2 != 1):
                 # Tank is not full
-                self.t_l_l+= 1
+                self.t_l_l+= 7
             else:
                 # Tank is full
-                self.err= 1
+                # self.err= 1
+                pass
 
         # Limit lower tank level
         if self.t_l_l < 0:
