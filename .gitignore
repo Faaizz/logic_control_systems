@@ -1,4 +1,6 @@
 README_GUIDE.md
+./controllers/implementation/OpenPLC/support
 .MATLABDriveTag
+.vscode*
 __py*
 *.pyc

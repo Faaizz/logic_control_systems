@@ -1,0 +1,198 @@
+MODULE main
+
+-- VARIABLES
+VAR
+
+-- INPUTS
+B1: boolean;
+B2: boolean;
+LS_1: boolean;
+LS_2: boolean;
+err: boolean;
+T_5: boolean;
+
+-- INTERNAL VARIABLES
+sus: {1,2,3};
+
+-- PLACES
+P1: boolean;
+P2: boolean;
+P3: boolean;
+P4: boolean;
+P5: boolean;
+
+
+-- DEFINITIONS
+DEFINE
+-- TRANSITIONS
+-- P1 to P2
+t1:= P1 & !P2 & B1 & !LS_2;
+-- P1 to P3
+t2:= P1 & !P3 & B1 & LS_2;
+-- P2 to P3
+t3:= P2 & !P3 & LS_2 & !B2;
+-- P3 to P4
+t4:= P3 & !P4 & T_5 & !B2;
+-- P2 to P5
+t5:= P2 & !P5 & B2;
+-- P5 to P2
+t6:= P5 & !P2 & B1 & (sus=1);
+-- P3 to P5
+t7:= P3 & !P5 & B2;
+-- P5 to P3
+t8:= P5 & !P3 & B1 & (sus=2);
+-- P4 to P5
+t9:= P4 & !P5 & B2;
+-- P5 to P4
+t10:= P5 & !P4 & B1 & (sus=3);
+-- P4 to P1
+t11:= P4 & !P1 & !LS_1 & !B2;
+
+-- STABLE FIRING
+stab:= !(t1 | t2 | t3 | t4 | t5 | t6 | t7 | t8 | t9 | t10 | t11);
+
+-- OUTPUTS
+set_V1:= P2;
+set_V2:= P2;
+set_V3:= P4;
+set_M:= P3;
+reset_V1:= P1 | P3 | P4 | P5;
+reset_V2:= P1 | P3 | P4 | P5;
+reset_V3:= P1 | P2 | P3 | P5;
+reset_M:= P1 | P2 | P4 | P5;
+
+V1:= set_V1 & !reset_V1;
+V2:= set_V2 & !reset_V2;
+V3:= set_V3 & !reset_V3;
+M:= set_M & !reset_M;
+
+
+-- ASSIGNMENTS
+ASSIGN
+
+-- INPUTS
+init(B1):= {TRUE, FALSE};
+next(B1):=  case
+                stab: {TRUE, FALSE};
+                TRUE: B1;
+            esac;
+
+init(B2):= FALSE;
+next(B2):=  case
+                stab: {TRUE, FALSE};
+                TRUE: B2;
+            esac;
+
+init(LS_1):= FALSE;
+next(LS_1):=    case
+                    stab: {TRUE, FALSE};
+                    TRUE: LS_1;
+                esac;
+
+init(LS_2):= FALSE;
+next(LS_2):=    case
+                    stab: {TRUE, FALSE};
+                    TRUE: LS_2;
+                esac;
+
+init(err):= {TRUE, FALSE};
+next(err):= case
+                stab: {TRUE, FALSE};
+                TRUE: err;
+            esac;
+
+init(sus):= {1,2,3};
+next(sus):= case
+                P2: 1;
+                P3: 2;
+                P4: 3;
+                TRUE: sus;
+            esac;
+
+
+-- STATES
+-- Initial state
+init(P1):= TRUE;
+next(P1):=  case
+                t1: FALSE;
+                t2: FALSE;
+                t11: TRUE;
+                TRUE: P1;
+            esac;
+
+init(P2):= FALSE;
+next(P2):=  case
+                t1: TRUE;
+                t6: TRUE;
+                t3: FALSE;
+                t5: FALSE;
+                TRUE: P2;
+            esac;
+
+init(P3):= FALSE;
+next(P3):=  case
+                t7: FALSE;
+                t4: FALSE;
+                t2: TRUE;
+                t3: TRUE;
+                t8: TRUE;
+                TRUE: P3;
+            esac;
+
+init(P4):= FALSE;
+next(P4):=  case
+                t4: TRUE;
+                t10: TRUE;
+                t9: FALSE;
+                t11: FALSE;
+                TRUE: P4;
+            esac;
+        
+init(P5):= FALSE;
+next(P5):=  case
+                t5: TRUE;
+                t8: FALSE;
+                t6: FALSE;
+                t7: TRUE;
+                t9: TRUE;
+                t10: FALSE;
+                TRUE:P5;
+            esac;
+
+
+-- SPECIFICATIONS
+
+-- No unstable cycles
+SPEC
+AG( EF(!stab) );
+
+-- Formally Correctness
+SPEC
+AG( (stab) -> !( (set_V1 & reset_V1) | (!set_V1 & !reset_V1) ) );
+SPEC
+AG( (stab) -> !( (set_V2 & reset_V2) | (!set_V2 & !reset_V2) ) );
+SPEC
+AG( (stab) -> !( (set_V3 & reset_V3) | (!set_V3 & !reset_V3) ) );
+SPEC
+AG( (stab) -> !( (set_M & reset_M) | (!set_M & !reset_M) ) );
+
+-- FUNCTIONAL
+SPEC
+-- If the tank is idle and not full and Start is ON, turn ON V1 and V2
+AG( ( stab & P1 & !LS_2 & B1 &!B2) -> AX( V1 & V2 & !V3 & !M ) );
+
+SPEC
+-- Whenever the tank is full, turn off V1 and V2 ans start M
+AG( (stab & LS_2 & P2 & !B2) -> AX(!V1 & !V2 & !V3 & M) );
+
+SPEC
+-- When the tank is empty, turn off V3
+AG( (stab & !LS_1 & P4 & !B2) ->  AX(!V1 & !V2 & !V3 & !M) );
+
+SPEC
+-- If Stop is pressed (B2), while a process is going on pressing Start later (B1) should resume the process
+AG( (P3 & B2) -> AX( (B1 & !B2) ->  AX(P3) ) );
+SPEC
+AG( (P2 & B2) -> AX( (B1 & !B2) ->  AX(P2) ) );
+SPEC
+AG( (P4 & B2) -> AX( (B1 & !B2) ->  AX(P4) ) );

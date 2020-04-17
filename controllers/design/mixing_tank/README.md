@@ -20,9 +20,9 @@
 [Plant Model](../../../plants/modelling/mixing_tank)
 
 ------------------------------------------------------------------------------------  
-### Finite State Automata
+### Finite State Automata Model
 
-![Image- FSA](fsa/fsa_01.png)
+![Image- FSA Model](fsa/fsa_01.png)
 
 #### States
 - Z0: Initialization. All outputs are low.  
@@ -30,6 +30,13 @@
 - Z2: Mixing. **M** is high. Timer **T_5** is set. **sus** is set to 2.   
 - Z3: Draining. **V3** is high. **sus** is set to 3.  
 - Z4: Stopped. All outputs are low.  
+
+------------------------------------------------------------------------------------  
+### SignalInterpreted Petri Net Model
+
+![Image- SIPN Model](sipn/sipn_01.png)  
+
+Outputs: (V1, V2, V3, M)
 
 ------------------------------------------------------------------------------------  
 ### Specifications

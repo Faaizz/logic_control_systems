@@ -48,6 +48,7 @@ int main(void){
 
     // Initialize all outputs to zero
     PORTB= 0b00000000;
+    PORTD= 0b00000000;
 
 
     while(1){
