@@ -42,9 +42,9 @@ int main(void){
     // V2 Actuator
     DDRB |= 1<<PINB1;
     // V3 Actuator
-    DDRB |= 1<<PINB2;
+    DDRB |= 1<<PINB4;
     // Mixer Motor Actuator
-    DDRB |= 1<<PINB3;
+    DDRB |= 1<<PINB5;
 
     // Initialize all outputs to zero
     PORTB= 0b00000000;

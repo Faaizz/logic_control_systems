@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns:ns1="http://www.plcopen.org/xml/tc6.xsd" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2020-04-18T01:23:02"/>
+  <contentHeader name="Unnamed" modificationDateTime="2020-04-18T02:27:00">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="10" y="10"/>
+      </fbd>
+      <ld>
+        <scaling x="10" y="10"/>
+      </ld>
+      <sfc>
+        <scaling x="10" y="10"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes/>
+    <pous>
+      <pou name="mixing_tank" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="B1" address="%IX100.2">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[START Button]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="B2" address="%IX100.3">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[STOP Button]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="LS_1" address="%IX100.1">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[Low-level sensor]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="LS_2" address="%IX100.0">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[High-level sensor]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="V1" address="%QX100.1">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[Valve 1 actuator]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="V3" address="%QX100.2">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[Valve 3 actuator]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="M" address="%QX100.3">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[Mixer motor actuator]]></xhtml:p>
+              </documentation>
+            </variable>
+          </localVars>
+          <localVars>
+            <variable name="sus">
+              <type>
+                <USINT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Internal variable to store pre-pause state]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="T_5">
+              <type>
+                <derived name="TON"/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Timer]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="stable">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="1"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Variable to check iterative firing]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="P1">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="1"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Init]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="P2">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Filling]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="P3">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Mixing]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="P4">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Draining]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="P5">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Stopped]]></xhtml:p>
+              </documentation>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml:p><![CDATA[
+(* Timer Call *)
+T_5(IN:= P3, PT:= T#5000ms);
+
+
+(* TRANSITIONS *)
+
+REPEAT
+  stable:= 1;
+  
+  (*t1*)
+  IF P1 AND NOT P2 AND B1 AND NOT LS_2 THEN
+    P1:= 0;
+    P2:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t2*)
+  IF P1 AND NOT P3 AND B1 AND LS_2 THEN
+    P1:= 0;
+    P3:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t3*)
+  IF P2 AND NOT P3 AND LS_2 AND NOT B2 THEN 
+    P2:= 0;
+    P3:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t4*)
+  IF P3 AND NOT P4 AND T_5.Q AND NOT B2 THEN 
+    P3:= 0;
+    P4:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t5*)
+  IF P2 AND NOT P5 AND B2 THEN
+    P2:= 0;
+    P5:= 1;
+    sus:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t6*)
+  IF P5 AND NOT P2 AND B1 AND sus=1 THEN 
+    P5:= 0;
+    P2:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t7*)
+  IF P3 AND NOT P5 AND B2 THEN 
+    P3:= 0;
+    P5:= 1;
+    sus:= 2;
+    stable:= 0;
+  END_IF;
+  
+  (*t8*)
+  IF P5 AND NOT P3 AND B1 AND sus=2 THEN
+    P5:= 0;
+    P3:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t9*)
+  IF P4 AND NOT P5 AND B2 THEN
+    P4:= 0;
+    P5:= 1;
+    sus:= 3;
+    stable:= 0;
+  END_IF;
+  
+  (*t10*)
+  IF P5 AND NOT P4 AND B1 AND sus=3 THEN
+    P5:= 0;
+    P4:= 1;
+    stable:= 0;
+  END_IF;
+  
+  (*t11*)
+  IF P4 AND NOT P1 AND NOT LS_2 AND NOT B2 THEN
+    P4:= 0;
+    P1:= 1;
+    stable:= 0;
+  END_IF;
+   
+      
+    
+  UNTIL stable=1
+END_REPEAT;
+
+
+(* OUTPUTS *)
+
+(*P1/P5*)
+IF P1 OR P5 THEN
+  V1:= 0;
+  V3:= 0;
+  M:= 0;
+END_IF;
+
+(*P2*)
+IF P2 THEN
+  V1:= 1;
+  V3:= 0;
+  M:= 0;
+END_IF;
+
+(*P3*)
+IF P3 THEN
+  V1:= 0;
+  V3:= 0;
+  M:= 1;
+END_IF;
+
+(*P4*)
+IF P4 THEN
+  V1:= 0;
+  V3:= 1;
+  M:= 0;
+END_IF;
+
+
+
+
+
+
+
+
+]]></xhtml:p>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Config0">
+        <resource name="Res0">
+          <task name="task0" priority="0" interval="T#20ms">
+            <pouInstance name="instance0" typeName="mixing_tank"/>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>
