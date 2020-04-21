@@ -22,9 +22,9 @@ h= 3
 # Configure Valve 1 on GPIO 21
 V1_input= Button(23)
 # Configure Valve 2 on GPIO 27
-V2_input= Button(27)
+V2_input= Button(22)
 # Configure Valve 3 on GPIO 17
-V3_input= Button(17)
+V3_input= Button(27)
 # Configure Mixer on GPIO 18
 M_input= Button(18)
 

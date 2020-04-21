@@ -19,15 +19,13 @@ PROGRAM mixing_tank
     P5 : BOOL := 0;
   END_VAR
 
-
+              
   (* Timer Call *)
-  T_5(IN:= P3, PT:= T#5000ms);
+  T_5(IN:= P3, PT:= T#15000ms);
 
 
   (* TRANSITIONS *)
 
-  REPEAT
-    stable:= 1;
     
     (*t1*)
     IF P1 AND NOT P2 AND B1 AND NOT LS_2 THEN
@@ -108,12 +106,7 @@ PROGRAM mixing_tank
       P1:= 1;
       stable:= 0;
     END_IF;
-     
-        
-      
-    UNTIL stable=1
-  END_REPEAT;
-
+    
 
   (* OUTPUTS *)
 

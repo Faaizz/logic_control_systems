@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<project xmlns:ns1="http://www.plcopen.org/xml/tc6.xsd" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.plcopen.org/xml/tc6_0201">
+<project xmlns:ns1="http://www.plcopen.org/xml/tc6_0201" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2020-04-18T01:23:02"/>
-  <contentHeader name="Unnamed" modificationDateTime="2020-04-18T02:27:00">
+  <contentHeader name="Unnamed" modificationDateTime="2020-04-22T00:35:20">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -170,15 +170,13 @@
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[
+            <xhtml:p><![CDATA[            
 (* Timer Call *)
-T_5(IN:= P3, PT:= T#5000ms);
+T_5(IN:= P3, PT:= T#15000ms);
 
 
 (* TRANSITIONS *)
 
-REPEAT
-  stable:= 1;
   
   (*t1*)
   IF P1 AND NOT P2 AND B1 AND NOT LS_2 THEN
@@ -254,17 +252,12 @@ REPEAT
   END_IF;
   
   (*t11*)
-  IF P4 AND NOT P1 AND NOT LS_2 AND NOT B2 THEN
+  IF P4 AND NOT P1 AND NOT LS_1 AND NOT B2 THEN
     P4:= 0;
     P1:= 1;
     stable:= 0;
   END_IF;
-   
-      
-    
-  UNTIL stable=1
-END_REPEAT;
-
+  
 
 (* OUTPUTS *)
 

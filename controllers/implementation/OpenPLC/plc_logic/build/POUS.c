@@ -219,69 +219,66 @@ void MIXING_TANK_body__(MIXING_TANK *data__) {
   // Initialise TEMP variables
 
   __SET_VAR(data__->T_5.,IN,,__GET_VAR(data__->P3,));
-  __SET_VAR(data__->T_5.,PT,,__time_to_timespec(1, 5000, 0, 0, 0, 0));
+  __SET_VAR(data__->T_5.,PT,,__time_to_timespec(1, 15000, 0, 0, 0, 0));
   TON_body__(&data__->T_5);
-  do {
-    __SET_VAR(data__->,STABLE,,1);
-    if ((((__GET_VAR(data__->P1,) && !(__GET_VAR(data__->P2,))) && __GET_VAR(data__->B1,)) && !(__GET_VAR(data__->LS_2,)))) {
-      __SET_VAR(data__->,P1,,0);
-      __SET_VAR(data__->,P2,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P1,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->B1,)) && __GET_VAR(data__->LS_2,))) {
-      __SET_VAR(data__->,P1,,0);
-      __SET_VAR(data__->,P3,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P2,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->LS_2,)) && !(__GET_VAR(data__->B2,)))) {
-      __SET_VAR(data__->,P2,,0);
-      __SET_VAR(data__->,P3,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P3,) && !(__GET_VAR(data__->P4,))) && __GET_VAR(data__->T_5.Q,)) && !(__GET_VAR(data__->B2,)))) {
-      __SET_VAR(data__->,P3,,0);
-      __SET_VAR(data__->,P4,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if (((__GET_VAR(data__->P2,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
-      __SET_VAR(data__->,P2,,0);
-      __SET_VAR(data__->,P5,,1);
-      __SET_VAR(data__->,SUS,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P2,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 1))) {
-      __SET_VAR(data__->,P5,,0);
-      __SET_VAR(data__->,P2,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if (((__GET_VAR(data__->P3,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
-      __SET_VAR(data__->,P3,,0);
-      __SET_VAR(data__->,P5,,1);
-      __SET_VAR(data__->,SUS,,2);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 2))) {
-      __SET_VAR(data__->,P5,,0);
-      __SET_VAR(data__->,P3,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if (((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
-      __SET_VAR(data__->,P4,,0);
-      __SET_VAR(data__->,P5,,1);
-      __SET_VAR(data__->,SUS,,3);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P4,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 3))) {
-      __SET_VAR(data__->,P5,,0);
-      __SET_VAR(data__->,P4,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-    if ((((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P1,))) && !(__GET_VAR(data__->LS_2,))) && !(__GET_VAR(data__->B2,)))) {
-      __SET_VAR(data__->,P4,,0);
-      __SET_VAR(data__->,P1,,1);
-      __SET_VAR(data__->,STABLE,,0);
-    };
-  } while((__GET_VAR(data__->STABLE,) == 1));
+  if ((((__GET_VAR(data__->P1,) && !(__GET_VAR(data__->P2,))) && __GET_VAR(data__->B1,)) && !(__GET_VAR(data__->LS_2,)))) {
+    __SET_VAR(data__->,P1,,0);
+    __SET_VAR(data__->,P2,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P1,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->B1,)) && __GET_VAR(data__->LS_2,))) {
+    __SET_VAR(data__->,P1,,0);
+    __SET_VAR(data__->,P3,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P2,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->LS_2,)) && !(__GET_VAR(data__->B2,)))) {
+    __SET_VAR(data__->,P2,,0);
+    __SET_VAR(data__->,P3,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P3,) && !(__GET_VAR(data__->P4,))) && __GET_VAR(data__->T_5.Q,)) && !(__GET_VAR(data__->B2,)))) {
+    __SET_VAR(data__->,P3,,0);
+    __SET_VAR(data__->,P4,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if (((__GET_VAR(data__->P2,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
+    __SET_VAR(data__->,P2,,0);
+    __SET_VAR(data__->,P5,,1);
+    __SET_VAR(data__->,SUS,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P2,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 1))) {
+    __SET_VAR(data__->,P5,,0);
+    __SET_VAR(data__->,P2,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if (((__GET_VAR(data__->P3,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
+    __SET_VAR(data__->,P3,,0);
+    __SET_VAR(data__->,P5,,1);
+    __SET_VAR(data__->,SUS,,2);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P3,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 2))) {
+    __SET_VAR(data__->,P5,,0);
+    __SET_VAR(data__->,P3,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if (((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P5,))) && __GET_VAR(data__->B2,))) {
+    __SET_VAR(data__->,P4,,0);
+    __SET_VAR(data__->,P5,,1);
+    __SET_VAR(data__->,SUS,,3);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P5,) && !(__GET_VAR(data__->P4,))) && __GET_VAR(data__->B1,)) && (__GET_VAR(data__->SUS,) == 3))) {
+    __SET_VAR(data__->,P5,,0);
+    __SET_VAR(data__->,P4,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
+  if ((((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P1,))) && !(__GET_VAR(data__->LS_1,))) && !(__GET_VAR(data__->B2,)))) {
+    __SET_VAR(data__->,P4,,0);
+    __SET_VAR(data__->,P1,,1);
+    __SET_VAR(data__->,STABLE,,0);
+  };
   if ((__GET_VAR(data__->P1,) || __GET_VAR(data__->P5,))) {
     __SET_VAR(data__->,V1,,0);
     __SET_VAR(data__->,V3,,0);
