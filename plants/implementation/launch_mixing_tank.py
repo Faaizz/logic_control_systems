@@ -68,12 +68,13 @@ while True:
         V1= 1
     else:
         V1=0
+    sys.stdout.write("{0:10}: {1:5} \n".format("V1", bool(V1)))
     # V2
     if V2_input.is_pressed:
         V2= 1
     else:
         V2=0
-    sys.stdout.write("{0:10}: {1:5} \n".format("V1", bool(V1)))
+    sys.stdout.write("{0:10}: {1:5} \n".format("V2", bool(V2)))
     # V3
     if V3_input.is_pressed:
         V3= 1
