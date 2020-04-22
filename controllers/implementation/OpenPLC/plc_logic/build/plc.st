@@ -99,12 +99,14 @@ PROGRAM mixing_tank
     LS_1 : BOOL;
     LS_2 : BOOL;
     V1 : BOOL;
+    V2 : BOOL;
     V3 : BOOL;
     M : BOOL;
   END_VAR
   VAR
     sus : USINT := 0;
     T_5 : TON;
+    T_temp : TOF;
     stable : BOOL := 1;
     P1 : BOOL := 1;
     P2 : BOOL := 0;
@@ -116,11 +118,11 @@ PROGRAM mixing_tank
               
   (* Timer Call *)
   T_5(IN:= P3, PT:= T#15000ms);
-
+  (*Introduced to eliminate false LOW in sensor LS_1*)
+  T_temp(IN:= LS_1, PT:= T#200ms);
 
   (* TRANSITIONS *)
 
-    
     (*t1*)
     IF P1 AND NOT P2 AND B1 AND NOT LS_2 THEN
       P1:= 0;
@@ -195,18 +197,19 @@ PROGRAM mixing_tank
     END_IF;
     
     (*t11*)
-    IF P4 AND NOT P1 AND NOT LS_1 AND NOT B2 THEN
+    IF P4 AND NOT P1 AND NOT T_temp.Q AND NOT B2 THEN
       P4:= 0;
       P1:= 1;
       stable:= 0;
     END_IF;
-    
+
 
   (* OUTPUTS *)
 
   (*P1/P5*)
   IF P1 OR P5 THEN
     V1:= 0;
+    V2:= 0;
     V3:= 0;
     M:= 0;
   END_IF;
@@ -214,6 +217,7 @@ PROGRAM mixing_tank
   (*P2*)
   IF P2 THEN
     V1:= 1;
+    V2:= 1;
     V3:= 0;
     M:= 0;
   END_IF;
@@ -221,6 +225,7 @@ PROGRAM mixing_tank
   (*P3*)
   IF P3 THEN
     V1:= 0;
+    V2:= 0;
     V3:= 0;
     M:= 1;
   END_IF;
@@ -228,6 +233,7 @@ PROGRAM mixing_tank
   (*P4*)
   IF P4 THEN
     V1:= 0;
+    V2:= 0;
     V3:= 1;
     M:= 0;
   END_IF;

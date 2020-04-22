@@ -202,10 +202,12 @@ void MIXING_TANK_init__(MIXING_TANK *data__, BOOL retain) {
   __INIT_VAR(data__->LS_1,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->LS_2,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->V1,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->V2,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->V3,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->M,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->SUS,0,retain)
   TON_init__(&data__->T_5,retain);
+  TOF_init__(&data__->T_TEMP,retain);
   __INIT_VAR(data__->STABLE,1,retain)
   __INIT_VAR(data__->P1,1,retain)
   __INIT_VAR(data__->P2,0,retain)
@@ -221,6 +223,9 @@ void MIXING_TANK_body__(MIXING_TANK *data__) {
   __SET_VAR(data__->T_5.,IN,,__GET_VAR(data__->P3,));
   __SET_VAR(data__->T_5.,PT,,__time_to_timespec(1, 15000, 0, 0, 0, 0));
   TON_body__(&data__->T_5);
+  __SET_VAR(data__->T_TEMP.,IN,,__GET_VAR(data__->LS_1,));
+  __SET_VAR(data__->T_TEMP.,PT,,__time_to_timespec(1, 200, 0, 0, 0, 0));
+  TOF_body__(&data__->T_TEMP);
   if ((((__GET_VAR(data__->P1,) && !(__GET_VAR(data__->P2,))) && __GET_VAR(data__->B1,)) && !(__GET_VAR(data__->LS_2,)))) {
     __SET_VAR(data__->,P1,,0);
     __SET_VAR(data__->,P2,,1);
@@ -274,28 +279,32 @@ void MIXING_TANK_body__(MIXING_TANK *data__) {
     __SET_VAR(data__->,P4,,1);
     __SET_VAR(data__->,STABLE,,0);
   };
-  if ((((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P1,))) && !(__GET_VAR(data__->LS_1,))) && !(__GET_VAR(data__->B2,)))) {
+  if ((((__GET_VAR(data__->P4,) && !(__GET_VAR(data__->P1,))) && !(__GET_VAR(data__->T_TEMP.Q,))) && !(__GET_VAR(data__->B2,)))) {
     __SET_VAR(data__->,P4,,0);
     __SET_VAR(data__->,P1,,1);
     __SET_VAR(data__->,STABLE,,0);
   };
   if ((__GET_VAR(data__->P1,) || __GET_VAR(data__->P5,))) {
     __SET_VAR(data__->,V1,,0);
+    __SET_VAR(data__->,V2,,0);
     __SET_VAR(data__->,V3,,0);
     __SET_VAR(data__->,M,,0);
   };
   if (__GET_VAR(data__->P2,)) {
     __SET_VAR(data__->,V1,,1);
+    __SET_VAR(data__->,V2,,1);
     __SET_VAR(data__->,V3,,0);
     __SET_VAR(data__->,M,,0);
   };
   if (__GET_VAR(data__->P3,)) {
     __SET_VAR(data__->,V1,,0);
+    __SET_VAR(data__->,V2,,0);
     __SET_VAR(data__->,V3,,0);
     __SET_VAR(data__->,M,,1);
   };
   if (__GET_VAR(data__->P4,)) {
     __SET_VAR(data__->,V1,,0);
+    __SET_VAR(data__->,V2,,0);
     __SET_VAR(data__->,V3,,1);
     __SET_VAR(data__->,M,,0);
   };
